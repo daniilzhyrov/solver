@@ -8,7 +8,7 @@ assert sys.argv[1] is not None, "The data file is not specified!"
 
 dataset = reader.DataReader.read(sys.argv[1])
 
-response = model.DistanceSet(dataset)
+distances = model.DistanceSet(dataset)
 
 accumulated = 0
 
@@ -20,10 +20,12 @@ for iter in range(10000):
     accumulated = 0
     for p1 in range(dataset.numPoints):
         for p2 in range(p1):
-            accumulated += response.sgetMaxDistance(p1, p2) - response.getMinDistance(p1, p2)
+            accumulated += distances.sgetMaxDistance(p1, p2) - distances.getMinDistance(p1, p2)
     print(accumulated, flush=True)
     if accumulated == oldAccumulated:
         break
+
+
 
 
 # result = [model.Point(0, 0, 0), model.Point(response.getMedianDistance(0, 1), 0, 0)]

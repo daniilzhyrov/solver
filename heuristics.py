@@ -14,3 +14,9 @@ class TriangleInequality:
                         if k != i and k != j and distances.getMaxDistance(j, k) < sys.float_info.max:
                             distances.updateDistance(i, k, Interval (max(0, distances.getMinDistance(i, j) - distances.getMaxDistance(j, k)), distances.getMaxDistance(i, j) + distances.getMaxDistance(j, k)))
         return distances
+    
+# class PyramidInequality:
+
+#     @staticmethod
+#     def contract()
+    
