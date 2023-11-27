@@ -13,7 +13,7 @@ response = model.DistanceSet(dataset)
 accumulated = 0
 
 for iter in range(10000):
-    distances = heuristics.contract(dataset, distances)
+    distances = heuristics.TriangleInequality.contract(dataset, distances)
 
     print(iter, flush=True)
     oldAccumulated = accumulated
