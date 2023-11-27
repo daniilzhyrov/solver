@@ -1,13 +1,13 @@
 import sys
+import math
 
 class Point:
-    _x, _y = float, float
-    _pointId = int
+    _x, _y, _z = float, float, float
 
-    def __init__(self, x: float, y: float, pointId: int):
+    def __init__(self, x: float, y: float, z: int):
         self._x = x
         self._y = y
-        self._pointId = pointId
+        self._z = z
 
     @property
     def x(self) -> float:
@@ -16,6 +16,13 @@ class Point:
     @property
     def y(self) -> float:
         return self._y
+    
+    @property
+    def z(self) -> float:
+        return self._z
+    
+    def distanceTo(self, p):
+        return math.sqrt((self.x - p.x) ** 2 + (self.y - p.y) ** 2 + (self.z - p.z) ** 2)
 
 class DataEntry:
     _pointA, _pointB = int, int
@@ -106,3 +113,6 @@ class DistanceSet:
     def updateMaxDistance(self, pointA: int, pointB: int, value: float):
         self._maxDistances[pointA][pointB] = self._maxDistances[pointB][pointA] = min (value, self._maxDistances[pointA][pointB])
         # self._distances[max(pointA, pointB)][min(pointA, pointB)] = min (value, self._distances[max(pointA, pointB)][min(pointA, pointB)])
+
+    def getMedianDistance(self, pointA: int, pointB: int):
+        return (self._minDistances[pointA][pointB] + self._maxDistances[pointA][pointB]) / 2
