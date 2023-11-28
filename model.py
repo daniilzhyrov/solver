@@ -3,27 +3,32 @@ import math
 from pyibex import Interval
 
 class Point:
-    _x, _y, _z = float, float, float
+    _x, _y, _z = Interval, Interval, Interval
 
-    def __init__(self, x: float, y: float, z: int):
+    def __init__(self, x: Interval, y: Interval, z: Interval):
         self._x = x
         self._y = y
         self._z = z
 
+    def __init__(self, maxValue : float):
+        self._x = Interval(-maxValue, maxValue)
+        self._y = Interval(-maxValue, maxValue)
+        self._z = Interval(-maxValue, maxValue)
+
     @property
-    def x(self) -> float:
+    def x(self) -> Interval:
         return self._x
     
     @property
-    def y(self) -> float:
+    def y(self) -> Interval:
         return self._y
     
     @property
-    def z(self) -> float:
+    def z(self) -> Interval:
         return self._z
     
-    def distanceTo(self, p):
-        return math.sqrt((self.x - p.x) ** 2 + (self.y - p.y) ** 2 + (self.z - p.z) ** 2)
+    # def distanceTo(self, p):
+    #     return math.sqrt((self.x - p.x) ** 2 + (self.y - p.y) ** 2 + (self.z - p.z) ** 2)
 
 class DataEntry:
     _pointA, _pointB = int, int
@@ -84,6 +89,9 @@ class DistanceSet:
         for entry in dataset:
             self._distances[entry.pointA - 1][entry.pointB - 1] = self._distances[entry.pointB - 1][entry.pointA - 1] = Interval(entry.distanceMin, entry.distanceMax)
 
+    def __getitem__(self, key):
+        return self._distances[key]
+    
     def getMinDistance(self, pointA: int, pointB: int) -> float:
         return self._distances[pointA][pointB].lb()
     

@@ -13,19 +13,43 @@ distances = model.DistanceSet(dataset)
 accumulated = 0
 
 for iter in range(10000):
-    distances = heuristics.TriangleInequality.contract(dataset, distances)
+
+    heuristicMethods = [heuristics.TriangleInequality, heuristics.PyramidInequality]
+
+    for method in heuristicMethods:
+        distances = method.contract(dataset, distances)
 
     print(iter, flush=True)
     oldAccumulated = accumulated
     accumulated = 0
     for p1 in range(dataset.numPoints):
         for p2 in range(p1):
-            accumulated += distances.sgetMaxDistance(p1, p2) - distances.getMinDistance(p1, p2)
+            accumulated += distances.getMaxDistance(p1, p2) - distances.getMinDistance(p1, p2)
     print(accumulated, flush=True)
     if accumulated == oldAccumulated:
         break
 
+points = [model.Point(Interval(0), Interval(0), Interval(0)),
+          model.Point(distances[0][1], Interval(0), Interval(0))]
 
+for _ in range(dataset.numPoints - 2):
+    points.append(model.Point(distances.getMaxDistance(0, 2)))
+
+def constraint_builder(points: [int]):
+    constraints = []
+    for i in range(len(points)):
+        for j in range(i):
+            
+
+
+for i in range(dataset.numPoints):
+    for j in range(dataset.numPoints):
+        if i < j:
+            for k in range(dataset.numPoints):
+                if k > i and k > j:
+                    for l in range(dataset.numPoints):
+                        if l > i and l > j and l > k:
+                            
 
 
 # result = [model.Point(0, 0, 0), model.Point(response.getMedianDistance(0, 1), 0, 0)]
